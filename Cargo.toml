@@ -13,6 +13,15 @@ secp256k1 = "0.20"
 lazy_static = "1.4.0"
 tiny-keccak = { version="2.0.2", features = ["sha3"] }
 
+# TODO: The test so far was *slower* with parallel on. Maybe just a small data set.
+ark-r1cs-std = { git = "https://github.com/arkworks-rs/r1cs-std", default-features = false, features=["parallel"] }
+ark-ff = { git = "https://github.com/arkworks-rs/algebra", default-features = false, features=["parallel"] }
+ark-ec = { git = "https://github.com/arkworks-rs/algebra", default-features = false, features=["parallel"] }
+ark-std = { git = "https://github.com/arkworks-rs/utils", default-features = false, features=["parallel"] }
+ark-relations = { git = "https://github.com/arkworks-rs/snark", default-features = false }
+ark-test-curves = { git = "https://github.com/arkworks-rs/algebra", default-features = false, features = ["bls12_381_scalar_field", "mnt4_753_scalar_field", "parallel"] }
+ark-crypto-primitives = { git = "https://github.com/arkworks-rs/crypto-primitives", default-features= false, features = ["r1cs", "std", "parallel"], branch="main" }
+ark-ed-on-bls12-381 = { git = "https://github.com/arkworks-rs/curves", default-features = false, features = [ "r1cs" ] }
 
 # This doesn't depend on byteorder directly,
 # but if this is left out then the dependency through

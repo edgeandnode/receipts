@@ -1,6 +1,7 @@
 pub mod format;
 mod pool;
 mod prelude;
+mod zkp;
 
 use eip_712_derive::{Address, DomainSeparator, Eip712Domain};
 pub use pool::{BorrowFail, BorrowedReceipt, QueryStatus, ReceiptPool};
