@@ -1,22 +1,12 @@
-/*
-# ZKP
-ark-gm17 = { git = "https://github.com/arkworks-rs/gm17", features = [ "r1cs" ] }
-ark-r1cs-std = { git = "https://github.com/arkworks-rs/r1cs-std" }
-ark-bn254 = { git = "https://github.com/arkworks-rs/curves" }
-*/
-
 use std::time::Instant;
 
-//use ark_ed_on_bls12_381::{EdwardsProjective as JubJub, FrParameters};
+use ark_ed_on_bls12_381::{EdwardsProjective as JubJub, Fr, FrParameters};
 use ark_ff::Fp256;
 use ark_r1cs_std::alloc::AllocationMode::*;
 use ark_r1cs_std::eq::EqGadget;
 use ark_r1cs_std::prelude::AllocationMode;
 use ark_r1cs_std::{alloc::AllocVar, fields::fp::FpVar};
 use ark_relations::r1cs::{ConstraintSystem, ConstraintSystemRef};
-use ark_test_curves::bls12_381::{Fr, FrParameters};
-
-// ark_ed_on_bls12_381
 
 type FP = Fp256<FrParameters>;
 type CS = ConstraintSystemRef<FP>;
@@ -43,7 +33,9 @@ pub fn create_proof(receipts: &[Receipt]) {
     let mut sum_v = var(&cs, &0, Constant);
     for (i, receipt) in receipts.iter().enumerate() {
         // TODO: Fill in the "None" values
+        let receipt_id = var(&cs, &(i as u128), Constant);
         let amount = var(&cs, &receipt.payment_amount, Witness);
+        // TODO: Sign receipt_id, amount
         sum_v = sum_v + amount;
     }
     sum_i.enforce_equal(&sum_v).unwrap();
@@ -53,31 +45,6 @@ pub fn create_proof(receipts: &[Receipt]) {
     dbg!(cs.num_constraints());
     dbg!(cs.num_witness_variables());
 }
-
-/*
-// Variations:
-// Assert each row = to a constant
-// Assert mul rows = (some number) where signer only uses primes (starting with 2, not 1)
-// The above are probably dumb... we actually just need to feed each row as a const into
-// the signer and not 'assert' anything.
-fn ordering_proof(data: &[u128]) -> CS {
-    let cs = ConstraintSystem::<Fr>::new_ref();
-
-    let mut data = data.iter();
-    let initial = data.next().unwrap();
-    let mut prev = witness_in(initial, &cs);
-    for elem in data {
-        let next = witness_in(elem, &cs);
-        prev.enforce_cmp(&next, Ordering::Less, false).unwrap();
-        prev = next;
-    }
-    cs.finalize();
-    dbg!(cs.is_satisfied().unwrap());
-    dbg!(cs.num_constraints());
-    dbg!(cs.num_witness_variables());
-    cs
-}
-*/
 
 #[cfg(test)]
 mod tests {
