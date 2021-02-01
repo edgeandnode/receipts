@@ -1,4 +1,4 @@
-#[allow(dead_code)]
+#![allow(dead_code)]
 mod iter;
 use iter::*;
 mod receipt;
