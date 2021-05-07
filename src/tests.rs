@@ -48,7 +48,7 @@ pub fn test_signer() -> SecretKey {
 }
 
 #[test]
-#[ignore = "This panics to output the result time. Should use a proper benchmarking lib."]
+#[ignore = "Benchmark"]
 fn speed() {
     let mut pool = ReceiptPool::new();
     pool.add_transfer(test_signer(), U256::from(10000), bytes32(0));
@@ -70,5 +70,5 @@ fn speed() {
 
     let end = Instant::now();
 
-    panic!("{:?}", end - start);
+    dbg!("{:?}", end - start);
 }
