@@ -21,7 +21,7 @@ pub struct ReceiptPool {
 /// A in-flight state for an allocation on-chain.
 // This must never implement Clone
 #[derive(Debug, PartialEq, Eq)]
-struct Allocation {
+pub struct Allocation {
     /// Receipts that can be folded. These contain an unbroken chain
     /// of agreed upon history between the Indexer and Gateway.
     receipt_cache: Vec<PooledReceipt>,
@@ -109,6 +109,10 @@ impl ReceiptPool {
         self.allocations.last_mut().ok_or(BorrowFail::NoAllocation)
     }
 
+    pub fn into_allocations(self) -> Vec<Allocation> {
+        self.allocations
+    }
+
     fn allocation_by_id_mut(&mut self, allocation_id: &Address) -> Option<&mut Allocation> {
         self.allocations
             .iter_mut()
@@ -188,6 +192,12 @@ impl ReceiptPool {
             receipt_id: bytes[RECEIPT_ID_RANGE].try_into().unwrap(),
         };
         allocation.receipt_cache.push(receipt);
+    }
+}
+
+impl From<Vec<Allocation>> for ReceiptPool {
+    fn from(from: Vec<Allocation>) -> Self {
+        Self { allocations: from }
     }
 }
 
