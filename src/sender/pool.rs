@@ -1,4 +1,5 @@
 use super::prelude::*;
+use crate::*;
 use rand::RngCore;
 use secp256k1::SecretKey;
 use std::fmt;

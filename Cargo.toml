@@ -14,6 +14,6 @@ secp256k1 = { version = "0.24", features = ["recovery"] }
 tiny-keccak = { version = "2", features = ["keccak"] }
 
 [features]
-default = ["sender"]
+default = ["sender", "receiver"]
 sender = ["dep:itertools", "dep:rand"]
 receiver = []
