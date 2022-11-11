@@ -2,15 +2,18 @@
 authors = ["Zac Burns <That3Percent@gmail.com>"]
 edition = "2021"
 name = "receipts"
-version = "0.1.0"
+version = "0.2.0"
 
 [dependencies]
-lazy_static = "1.4.0"
+hex = { version = "0.4", default-features = false }
+itertools = { version = "0.10", optional = true }
+lazy_static = "1.4"
 primitive-types = "0.12"
-rand = "0.8"
+rand = { version = "0.8", optional = true }
 secp256k1 = { version = "0.24", features = ["recovery"] }
 tiny-keccak = { version = "2", features = ["keccak"] }
-itertools = "0.10"
 
-[dev-dependencies]
-rustc-hex = "2"
+[features]
+default = ["sender"]
+sender = ["dep:itertools", "dep:rand"]
+receiver = []

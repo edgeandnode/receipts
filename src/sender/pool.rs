@@ -1,4 +1,4 @@
-use crate::prelude::*;
+use super::prelude::*;
 use rand::RngCore;
 use secp256k1::SecretKey;
 use std::fmt;
@@ -224,8 +224,7 @@ impl ReceiptPool {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
-    use crate::tests::*;
+    use super::{super::tests::*, *};
 
     #[track_caller]
     fn assert_failed_borrow(pool: &mut ReceiptPool, fee: impl Into<U256>) {

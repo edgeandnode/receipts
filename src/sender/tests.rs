@@ -1,5 +1,4 @@
-use crate::prelude::*;
-use crate::*;
+use super::{prelude::*, *};
 use secp256k1::{PublicKey, SecretKey};
 use std::convert::TryFrom;
 use std::time::Instant;
@@ -9,9 +8,7 @@ pub fn bytes<const N: usize>(id: u8) -> [u8; N] {
 }
 
 fn debug_hex(bytes: &[u8]) {
-    use rustc_hex::ToHex as _;
-    let hex: String = bytes.to_hex();
-    println!("{}\n", hex);
+    println!("{}\n", hex::encode(bytes));
 }
 
 // This is just useful for constructing a value to test with.

@@ -1,4 +1,4 @@
-use crate::prelude::*;
+use super::prelude::*;
 use itertools::Itertools as _;
 use secp256k1::{ecdsa, Message, PublicKey, SecretKey};
 use std::fmt;
