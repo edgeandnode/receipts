@@ -10,10 +10,12 @@ use crate::prelude::*;
 pub enum VoucherError {
     InvalidData,
     InvalidSignature,
+    JsonDeserialization(String),
     UnorderedReceipts,
     UnorderedPartialVouchers,
     NoValue,
     InvalidRecoveryId,
+    VoucherValueTooLarge,
 }
 
 impl std::error::Error for VoucherError {}
@@ -23,10 +25,12 @@ impl fmt::Display for VoucherError {
         match self {
             Self::InvalidData => write!(f, "Invalid receipts data"),
             Self::InvalidSignature => write!(f, "Receipts are not signed for the given allocation"),
+            Self::JsonDeserialization(err) => write!(f, "JSON error: {}", err),
             Self::UnorderedReceipts => write!(f, "Unordered receipts"),
             Self::UnorderedPartialVouchers => write!(f, "Unordered partial vouchers"),
             Self::NoValue => write!(f, "Receipts have no value"),
             Self::InvalidRecoveryId => SignError::InvalidRecoveryId.fmt(f),
+            Self::VoucherValueTooLarge => write!(f, "Voucher value too large"),
         }
     }
 }
